@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html ng-app="portfolioApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color:rgba(76, 3, 80, 0.793);
+            color: #ffffff;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(183, 10, 168, 0.2);
+            z-index: 1000;
+        }
+
+        header nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        header nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        header nav ul li {
+            margin: 0 15px;
+        }
+
+        header nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 15px;
+            transition: background-color 0.3s, color 0.3s;
+            font-size: 1.1em;
+            border-radius: 5px;
+        }
+
+        header nav ul li a:hover,
+        header nav ul li a.active {
+            background-color: rgba(171, 17, 179, 0.793);; /* Medium Dark Grey */
+            color: #ffffff;
+        }
+
+        .hero {
+            background-color: #f4f4f4;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            position: relative;
+        }
+
+        @keyframes typing {
+            0% { width: 0; }
+            50% { width: 100%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes blinkCursor {
+            0% { border-right-color: transparent; }
+            50% { border-right-color: transparent; }
+            100% { border-right-color: transparent; }
+        }
+
+        .hero-content h1 {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 3em;
+            margin-bottom: 10px;
+            color: #5c0476;
+            line-height: 1.2;
+            display: inline-block;
+            position: relative;
+            overflow: hidden; /* Ensures text is clipped to animation */
+            white-space: nowrap; /* Keeps text in a single line */
+            border-right: 3px solid #be4fe0; /* Cursor effect */
+            animation: typing 6s steps(40, end) infinite, blinkCursor 0.75s step-end infinite; /* Apply animations */
+        }
+
+        .hero-content p {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #981313;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .hero-content p.highlight {
+            color: #be4fe0;
+            font-weight: 700;
+            background-color: rgba(58, 3, 63, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .about-summary {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #ffffff, #e8f4f8);
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(83, 4, 72, 0.844);
+            margin: 20px auto;
+            max-width: 800px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .about-summary img {
+            width: 250px;
+            height: 200px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(76, 3, 80, 0.793);
+            border: 5px solid #ffffff;
+            margin-right: 30px;
+        }
+
+        .about-summary h2 {
+            font-size: 2.8em;
+            color: #be4fe0;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-summary p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #555;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-summary .highlight {
+            background-color: #e7f1ff;
+            padding: 15px;
+            border-left: 5px solid #be4fe0;
+            margin-top: 30px;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-summary .highlight strong {
+            color: #be4fe0;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: #be4fe0;
+            color: #ffffff;
+            font-size: 1.1em;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: #a73fc7;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            background-color: #9e3fc3;
+            transform: translateY(0);
+        }
+
+        .btn-primary:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(193, 95, 200, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .about-summary {
+                padding: 40px 15px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .about-summary img {
+                width: 200px;
+                height: 160px;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .about-summary h2 {
+                font-size: 2.2em;
+            }
+
+            .about-summary p {
+                font-size: 1em;
+            }
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        var app = angular.module('portfolioApp', []);
+
+        // Define a service for providing feature data
+       
+        // Define a controller for the About section
+        app.controller('AboutController', ['$scope', function($scope) {
+            $scope.aboutMe = "Hi, I'm [Your Name], a passionate developer with expertise in [Your Skills]. I enjoy transforming ideas into stunning digital experiences. Explore my work below to see what I can do!";
+        }]);
+
+        // Define a controller for the Features section
+        app.controller('FeaturesController', ['$scope', 'FeatureService', function($scope, FeatureService) {
+            $scope.features = FeatureService.getFeatures();
+        }]);
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="views/about.html" class="active">About</a></li>
+                
+                <li><a href="views/projects.html">Projects</a></li>
+                <li><a href="views/achievements.html">Achievements</a></li>
+                <li><a href="views/Gallery.html">Gallery</a></li>
+                <li><a href="http://localhost:3000">Resume</a></li>
+                
+                <li><a href="views/contact.html">Contact</a></li>
+                <li><a href="views/login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span>W</span>
+                <span>e</span>
+                <span>l</span>
+                <span>c</span>
+                <span>o</span>
+                <span>m</span>
+                <span>e</span>
+                <span> </span>
+                <span>t</span>
+                <span>o</span>
+                <span> </span>
+                <span>M</span>
+                <span>y</span>
+                <span> </span>
+                <span>P</span>
+                <span>o</span>
+                <span>r</span>
+                <span>t</span>
+                <span>f</span>
+                <span>o</span>
+                <span>l</span>
+                <span>i</span>
+                <span>o</span>
+            </h1>
+            <p>Discover my achievements, projects, and services. Let’s create something amazing together!</p>
+            <a href="#!/projects" class="btn-primary">View My Work</a>
+        </div>
+    </section>
+
+    <center>
+        <h3>About me</h3>
+    </center>
+
+    <section class="about-summary" ng-controller="AboutController">
+        <img src="views/an.jpg" alt="Profile Image">
+        <p>{{ aboutMe }}</p>
+    </section>
+
+    <section class="features" ng-controller="FeaturesController">
+        <div class="feature" ng-repeat="feature in features">
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.description }}</p>
+        </div>
+    </section>
+</body>
+</html>

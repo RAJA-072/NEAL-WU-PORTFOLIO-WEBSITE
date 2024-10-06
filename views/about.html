@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="portfolioApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Me - Portfolio</title>
+  
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f4f4f9; /* Light Grey Background */
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Header Styles */
+    header {
+      background: rgba(76, 3, 80, 0.8); /* Purple with some transparency */
+      color: #fff;
+      padding: 1rem 0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    header nav ul li {
+      margin: 0 15px;
+    }
+
+    header nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 15px;
+      transition: background 0.3s ease, color 0.3s ease;
+      font-size: 1.1rem;
+      border-radius: 5px;
+    }
+
+    header nav ul li a:hover,
+    header nav ul li a.active {
+      background: #be4fe0; /* Purple */
+      color: #fff;
+    }
+
+    /* Container Styles */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    /* About Section Styles */
+    .about {
+      background: #fff;
+      padding: 40px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      margin: 20px 0;
+      border-radius: 15px;
+      border: 1px solid #ddd;
+    }
+
+    .about .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .about .profile img {
+      border-radius: 50%;
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border: 6px solid #be4fe0; /* Purple */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .about .profile img:hover {
+      transform: scale(1.1);
+      border-color: #333; /* Dark Grey */
+    }
+
+    .about h1,
+    .about h2 {
+      text-align: center;
+      color: #333; /* Dark Grey */
+    }
+
+    .about h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .about h2 {
+      font-size: 2rem;
+      color: #be4fe0; /* Purple */
+      margin-top: 25px;
+      margin-bottom: 15px;
+    }
+
+    /* Text Styling */
+    p, h3 {
+      line-height: 1.6;
+      margin: 0 0 15px 0;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      color: #333; /* Dark Grey */
+    }
+
+    /* Card Styles */
+    .card {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #333; /* Dark Grey */
+    }
+
+    .card p {
+      color: #555;
+    }
+
+    /* Timeline Styles */
+    .timeline {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .timeline li {
+      background: #fff;
+      margin: 20px 0;
+      padding: 20px;
+      border-left: 6px solid #be4fe0; /* Purple */
+      border-radius: 10px;
+      position: relative;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .timeline li:hover {
+      background: #f1f1f1;
+      transform: translateX(5px);
+    }
+
+    .timeline li::before {
+      content: '';
+      position: absolute;
+      left: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      background: #be4fe0; /* Purple */
+      border-radius: 50%;
+    }
+
+    /* Skills Styles */
+    .skills {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .skills li {
+      background: #333; /* Dark Grey */
+      color: #fff;
+      padding: 12px 24px;
+      margin: 8px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      transition: background 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .skills li:hover {
+      background: #000; /* Black */
+      transform: scale(1.05);
+    }
+
+    /* Footer Styles */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(76, 3, 80, 0.8); /* Purple with some transparency */
+      color: #fff;
+      width: 100%;
+      box-shadow: 0 -4px 8px rgba(0,0,0,0.2);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      header nav ul {
+        flex-direction: column;
+      }
+
+      header nav ul li {
+        margin: 10px 0;
+      }
+
+      .container {
+        padding: 15px;
+      }
+
+      .about {
+        padding: 25px;
+      }
+
+      .about .profile img {
+        width: 150px;
+        height: 150px;
+      }
+
+      .about h1 {
+        font-size: 2rem;
+      }
+
+      .about h2 {
+        font-size: 1.6rem;
+      }
+
+      .skills li {
+        font-size: 1rem;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body ng-controller="AboutController">
+  <header>
+    <nav>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        
+        <li><a href="projects.html" class="active">Projects</a></li>
+        <li><a href="achievements.html">Achievements</a></li>
+        <li><a href="Gallery.html">Gallery</a></li>
+        
+      
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="about">
+      <div class="container">
+        <h1>About Me</h1>
+        <div class="profile">
+          <!-- Replace with a profile image URL -->
+        
+          <p ng-bind="profileDescription"></p>
+        </div>
+
+        <h2>Professional Experience</h2>
+        <ul class="timeline">
+          <li ng-repeat="job in jobs" ng-click="toggleDetails(job)">
+            <h3 ng-bind="job.title"></h3>
+            <span ng-bind="job.dates"></span>
+            <p ng-show="job.showDetails" ng-bind="job.description"></p>
+          </li>
+        </ul>
+
+        <h2>Skills</h2>
+        <ul class="skills">
+          <li ng-repeat="skill in skills" ng-bind="skill"></li>
+        </ul>
+
+        <h2>Education</h2>
+        <div class="card">
+          <h3>Bachelor of Science in Computer Science</h3>
+          <p>University of ABC, 2017</p>
+        </div>
+
+        <h2>Personal Interests</h2>
+        <div class="card">
+          <p ng-bind="interests"></p>
+        </div>
+
+        <h2>More About Neal Wu</h2>
+        <div class="card">
+          <p>Neal Wu is a passionate web developer with a strong background in both front-end and back-end technologies. He is committed to continuous learning and professional growth. Outside of work, Neal enjoys exploring new technologies, hiking, and spending quality time with family and friends. His dedication to his craft and his enthusiasm for technology make him a valuable asset in any development team.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Neal Wu. All rights reserved.</p>
+  </footer>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    var app = angular.module('portfolioApp', []);
+
+    app.controller('AboutController', function($scope) {
+      $scope.profileDescription = "Hello! I'm Neal Wu, a passionate web developer with a knack for creating beautiful and functional websites. With over [X] years of experience in the industry, I have honed my skills in HTML, CSS, JavaScript, and various modern frameworks. I thrive on challenges and constantly set goals for myself to stay updated with the latest trends and technologies in web development.";
+
+      $scope.jobs = [
+        {
+          title: "Web Developer at XYZ Company",
+          dates: "January 2020 - Present",
+          description: "At XYZ Company, I have been involved in numerous projects where I developed responsive websites and web applications. I collaborated with cross-functional teams to deliver high-quality products that meet client requirements.",
+          showDetails: false
+        },
+        {
+          title: "Frontend Developer at ABC Corp",
+          dates: "June 2017 - December 2019",
+          description: "During my time at ABC Corp, I specialized in frontend development, focusing on creating intuitive user interfaces and enhancing user experience. I worked closely with designers and backend developers to ensure seamless integration and functionality.",
+          showDetails: false
+        }
+      ];
+
+      $scope.skills = [
+        "HTML5 & CSS3",
+        "JavaScript & TypeScript",
+        "Angular & React",
+        "Node.js & Express.js",
+        "Responsive Design",
+        "Version Control (Git)"
+      ];
+
+      $scope.education = "Bachelor of Science in Computer Science, University of ABC, 2017";
+      $scope.interests = "Outside of work, I enjoy hiking, photography, and exploring new technologies. I am also an avid reader and love spending time with my family and friends.";
+
+      $scope.toggleDetails = function(job) {
+        job.showDetails = !job.showDetails;
+      };
+    });
+  </script>
+</body>
+</html>

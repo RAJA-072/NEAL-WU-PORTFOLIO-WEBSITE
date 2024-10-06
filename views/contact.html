@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="contactApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        /* Basic Reset */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        /* Container */
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #3a2a7b;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 600;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flexbox;
+            justify-content: space-around;
+            align-items: center;
+            background: linear-gradient(135deg, #3a2a7b, #4a3f8b);
+            padding: 10px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background-color: #6a5abd;
+            transform: translateY(-2px);
+        }
+
+        nav a:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(58, 42, 123, 0.5);
+        }
+
+        /* Navigation Animation */
+        .nav-link.ng-enter {
+            transition: 0.5s ease-in;
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        .nav-link.ng-enter-active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .nav-link.ng-leave {
+            transition: 0.5s ease-out;
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .nav-link.ng-leave-active {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+
+        /* Main Section */
+        .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .contact-form,
+        .contact-info {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .contact-form h2,
+        .contact-info h2 {
+            margin-top: 0;
+            color: #3a2a7b;
+            font-size: 2em;
+            text-align: center;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        .contact-form button {
+            background-color: #3a2a7b;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            font-size: 1.1em;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            width: 100%;
+        }
+
+        .contact-form button:hover {
+            background-color: #4a3f8b;
+            transform: translateY(-2px);
+        }
+
+        .contact-form button:active {
+            background-color: #3a2a7b;
+            transform: translateY(0);
+        }
+
+        .contact-form button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(58, 42, 123, 0.5);
+        }
+
+        .contact-info p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #555;
+            text-align: center;
+        }
+
+        .contact-info .social-media {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .contact-info .social-media a {
+            text-decoration: none;
+            color: #3a2a7b;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .contact-info .social-media a:hover {
+            color: #4a3f8b;
+        }
+
+        /* Map Section */
+        .map {
+            margin-top: 30px;
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main {
+                padding: 0;
+            }
+
+            .contact-form,
+            .contact-info {
+                width: 100%;
+                max-width: none;
+            }
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.js"></script>
+    <script>
+        // AngularJS Application
+        var app = angular.module('contactApp', ['ngAnimate']);
+
+        // ContactController
+        app.controller('ContactController', ['$scope', function($scope) {
+            $scope.contactInfo = {
+                address: '1234 Street Name, City, State, 56789',
+                phone: '(123) 456-7890',
+                email: 'contact@example.com',
+                social: {
+                    facebook: 'https://facebook.com',
+                    twitter: 'https://twitter.com',
+                    linkedin: 'https://linkedin.com'
+                }
+            };
+
+            $scope.submitForm = function() {
+                if ($scope.contactForm.$valid) {
+                    alert('Your message has been sent!');
+                    $scope.contactForm.$setPristine();
+                    $scope.contactForm.$setUntouched();
+                    $scope.formData = {};
+                } else {
+                    alert('Please fill out all required fields.');
+                }
+            };
+
+            $scope.formData = {};
+        }]);
+    </script>
+</head>
+<body ng-controller="ContactController">
+    <nav><center>
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="achievements.html" class="nav-link">Achievements</a>
+        <a href="gallery.html" class="nav-link">Gallery</a>
+        <a href="login.html" class="nav-link">Login</a>
+        </center>
+    </nav>
+    <div class="container">
+        <div class="main">
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <h2>Get in Touch</h2>
+                <form name="contactForm" ng-submit="submitForm()" novalidate>
+                    <input type="text" name="name" ng-model="formData.name" placeholder="Your Name" required>
+                    <input type="email" name="email" ng-model="formData.email" placeholder="Your Email" required>
+                    <input type="text" name="subject" ng-model="formData.subject" placeholder="Subject" required>
+                    <textarea name="message" ng-model="formData.message" rows="5" placeholder="Your Message" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <h2>Contact Information</h2>
+                <p><strong>Address:</strong> {{ contactInfo.address }}</p>
+                <p><strong>Phone:</strong> {{ contactInfo.phone }}</p>
+                <p><strong>Email:</strong> {{ contactInfo.email }}</p>
+                <div class="social-media">
+                    <a href="{{ contactInfo.social.facebook }}" target="_blank" aria-label="Facebook">📘</a>
+                    <a href="{{ contactInfo.social.twitter }}" target="_blank" aria-label="Twitter">🐦</a>
+                    <a href="{{ contactInfo.social.linkedin }}" target="_blank" aria-label="LinkedIn">🔗</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="map">
+            <!-- Embed a Google Map -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3038.7452743757586!2d-73.98635808461825!3d40.7488178434302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259af8eaffc27%3A0x26b0e4eab5e6a!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1636717737643!5m2!1sen!2sus" style="border:0; width:100%; height:100%;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+</body>
+</html>

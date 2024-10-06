@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="portfolioApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Portfolio</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    /* Basic Reset */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1d;
+      color: #c5c6c7;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: rgba(76, 3, 80, 0.793);
+      color: #fff;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(183, 10, 168, 0.2);
+      z-index: 1000;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav ul li {
+      margin: 0 15px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: rgba(171, 17, 179, 0.793);
+      color: #ffffff;
+    }
+
+    /* Main Content Styles */
+    main {
+      padding: 20px;
+    }
+
+    .search-bar input[type="text"] {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #be4fe0;
+      border-radius: 8px;
+      background: #2e2e2e;
+      color: #fff;
+    }
+
+    .filters select {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #be4fe0;
+      border-radius: 8px;
+      background: #2e2e2e;
+      color: #fff;
+    }
+
+    /* Project List */
+    .project-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    /* Project Card */
+    .project-card {
+      background: #4e4e50;
+      border: 1px solid #333;
+      border-radius: 12px;
+      overflow: hidden;
+      width: calc(33.333% - 20px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-bottom: 20px;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .project-card-content {
+      padding: 20px;
+    }
+
+    .project-card h3 {
+      margin-bottom: 10px;
+      color: #be4fe0;
+    }
+
+    .project-card p {
+      color: #c5c6c7;
+      margin-bottom: 10px;
+    }
+
+    .project-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav ul li {
+        margin: 10px 0;
+      }
+
+      .project-card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body ng-controller="PortfolioController">
+  <header>
+    <nav>
+      <ul>
+       
+        <li><a href="achievements.html">Achievements</a></li>
+        <li><a href="projects.html" class="active">Projects</a></li>
+        <li><a href="Gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2>Projects</h2>
+      <div class="search-bar">
+        <input type="text" ng-model="searchQuery" placeholder="Search projects...">
+      </div>
+      <div class="filters">
+        <select ng-model="filterCategory">
+          <option value="">All Categories</option>
+          <option value="Web">Web</option>
+          <option value="Mobile">Mobile</option>
+          <option value="IoT">IoT</option>
+          <option value="Cloud">Cloud</option>
+        </select>
+      </div>
+      <div class="project-list">
+        <div class="project-card" ng-repeat="project in filteredProjects = (projects | filter:searchQuery | filter:{category:filterCategory})">
+          <img ng-src="{{project.image}}" alt="{{project.name}}">
+          <div class="project-card-content">
+            <h3>{{project.name}}</h3>
+            <p>Category: {{project.category}}</p>
+            <p>{{project.description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // AngularJS Application
+    var app = angular.module('portfolioApp', []);
+   
+    // Portfolio Controller
+    app.controller('PortfolioController', function($scope) {
+      $scope.projects = [
+        { name: 'Medicinal Plant API', category: 'Web', description: 'API for managing medicinal plants.', image: 'tulsi.jpg' },
+        { name: 'Smart Waste Management', category: 'IoT', description: 'System for waste classification and disposal.', image: 'waste.jpeg' },
+        { name: 'Dynamic Website', category: 'Cloud', description: 'Website with dynamic content using AWS.', image: 'dynamic.jpg' },
+        { name: 'Mobile App', category: 'Mobile', description: 'Cross-platform mobile application.', image: 'ab.png' },
+        // Add more projects as needed
+      ];
+     
+      $scope.searchQuery = '';
+      $scope.filterCategory = '';
+    });
+  </script>
+</body>
+</html>

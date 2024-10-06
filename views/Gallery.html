@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="galleryApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-animate.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1a1a1d;
+            color: #c5c6c7;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px 0;
+            border-bottom: 2px solid #66fcf1;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #66fcf1;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        .gallery-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #4e4e50;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        .gallery-container h1 {
+            color: #66fcf1;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .video {
+            margin-bottom: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .video:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .video iframe {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            height: 315px;
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body ng-controller="GalleryController">
+    <nav>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html" class="active">Projects</a></li>
+            <li><a href="achievements.html">Achievements</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+    <div class="gallery-container">
+        <h1>{{ title }}</h1>
+        <div class="video" ng-repeat="video in videos">
+            <iframe ng-src="{{ getTrustedUrl(video.url) }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+    <script>
+        var app = angular.module('galleryApp', ['ngAnimate']);
+        app.controller('GalleryController', ['$scope', '$sce', function($scope, $sce) {
+            $scope.title = "Video Gallery";
+            $scope.videos = [
+                { url: "https://www.youtube.com/embed/uIPIcpizjvg" },
+                { url: "https://www.youtube.com/embed/ozLZuJjQ7BQ" }
+                // Add more video URLs here
+            ];
+            $scope.getTrustedUrl = function(url) {
+                return $sce.trustAsResourceUrl(url);
+            };
+        }]);
+    </script>
+</body>
+</html>

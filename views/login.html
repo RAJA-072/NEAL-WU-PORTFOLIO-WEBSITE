@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="portfolioApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Portfolio</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: url('login back.jpg') no-repeat center center fixed; /* Background image */
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #ecf0f1; /* Light text color for readability */
+    }
+
+    /* Overlay for improved readability */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.37); /* Semi-transparent overlay */
+      z-index: 1;
+    }
+
+    /* Main Container Styles */
+    main {
+      background: #34495e; /* Slightly lighter background for form */
+      border-radius: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 360px;
+      padding: 40px;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 2; /* Ensure the form is above the overlay */
+    }
+
+    /* Header Styles */
+    h2 {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #ecf0f1;
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    /* Form Group Styles */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #7f8c8d;
+      border-radius: 12px;
+      box-sizing: border-box;
+      font-size: 16px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      background: #2c3e50;
+      color: #ecf0f1;
+    }
+
+    .input-field::placeholder {
+      color: #bdc3c7; /* Placeholder color for better contrast */
+    }
+
+    .input-field:focus {
+      border-color: #b383f1;
+      box-shadow: 0 0 8px rgba(152, 109, 201, 0.986);
+      outline: none;
+    }
+
+    .input-field-focus {
+      border-color: #b383f1;
+      box-shadow: 0 0 8px rgba(152, 109, 201, 0.986);
+    }
+
+    /* Button Styles */
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #b383f1;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    button:hover {
+      background-color: #9b69e0;
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      background-color: #8a5ae2;
+      transform: translateY(0);
+    }
+
+    /* Error Message Styles */
+    .error-message {
+      color: #e74c3c;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+
+    .error-message-hover {
+      font-weight: bold;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      main {
+        padding: 20px;
+        max-width: 100%;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+
+      .input-field,
+      button {
+        font-size: 14px;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body ng-controller="LoginController">
+  <div class="overlay"></div> <!-- Overlay for improved readability -->
+  <main>
+    <div class="login-container">
+      <h2>Login</h2>
+      <form name="loginForm" ng-submit="login()">
+        <div class="form-group">
+          <input type="text" placeholder="Username" ng-model="username" required custom-focus class="input-field">
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="Password" ng-model="password" required custom-focus class="input-field">
+        </div>
+        <button type="submit" ng-disabled="loginForm.$invalid">Login</button>
+        <div class="error-message" ng-if="errorMessage" error-message>{{errorMessage}}</div>
+      </form>
+    </div>
+  </main>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    var app = angular.module('portfolioApp', []);
+
+    // AuthService
+    app.factory('AuthService', function($http) {
+      return {
+        login: function(username, password) {
+          console.log('AuthService: login called'); // Log statement
+          // Example API endpoint for login
+          return $http.post('/api/login', { username: username, password: password });
+        }
+      };
+    });
+
+    // LoginController
+    app.controller('LoginController', function($scope, AuthService) {
+      $scope.username = '';
+      $scope.password = '';
+      $scope.errorMessage = '';
+
+      // Function to handle login
+      $scope.login = function() {
+        if ($scope.loginForm.$valid) {
+          console.log('LoginController: login function called'); // Log statement
+          AuthService.login($scope.username, $scope.password).then(function(response) {
+            // Handle successful login
+            console.log('Login successful:', response.data); // Log statement
+            alert('Login successful');
+            // Redirect or handle login success here
+            $scope.errorMessage = ''; // Clear any previous error messages
+          }, function(error) {
+            // Handle login error
+            console.log('Login failed:', error); // Log statement
+            if (error.status === 401) { // Example status code for unauthorized access
+              $scope.errorMessage = 'Invalid username or password';
+            } else {
+              $scope.errorMessage = 'An error occurred. Please try again.';
+            }
+          });
+        }
+      };
+
+      // Watch for changes in the form inputs to clear the error message
+      $scope.$watch('username', function(newVal) {
+        if (newVal) {
+          $scope.errorMessage = ''; // Clear error message when user starts typing
+        }
+      });
+
+      $scope.$watch('password', function(newVal) {
+        if (newVal) {
+          $scope.errorMessage = ''; // Clear error message when user starts typing
+        }
+      });
+    });
+
+    // Custom Directive for Input Focus
+    app.directive('customFocus', function() {
+      return {
+        restrict: 'A',
+        link: function(scope, element) {
+          element.on('focus', function() {
+            element.addClass('input-field-focus');
+          });
+          element.on('blur', function() {
+            element.removeClass('input-field-focus');
+          });
+        }
+      };
+    });
+
+    // Custom Directive for Error Message
+    app.directive('errorMessage', function() {
+      return {
+        restrict: 'A',
+        link: function(scope, element) {
+          element.on('mouseenter', function() {
+            element.addClass('error-message-hover');
+          });
+          element.on('mouseleave', function() {
+            element.removeClass('error-message-hover');
+          });
+        }
+      };
+    });
+  </script>
+</body>
+</html>
