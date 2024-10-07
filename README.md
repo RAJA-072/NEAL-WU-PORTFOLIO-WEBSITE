@@ -1,5 +1,7 @@
 # README for Portfolio Website
 
+https://github.com/user-attachments/assets/99505feb-2daf-449e-9971-134bf457321b
+
 Welcome to the repository for my portfolio website, now live at [https://nealwuportfolio.netlify.app/](https://nealwuportfolio.netlify.app/).
 
 ## Table of Contents
