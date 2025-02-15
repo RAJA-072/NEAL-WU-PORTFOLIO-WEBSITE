@@ -21,7 +21,7 @@ This website serves as a comprehensive portfolio showcasing my skills, projects,
 - **About Me**: Detailed information about my background, skills, and professional journey.
 - **Projects**: Showcase of selected projects with descriptions, technologies used, and links to live demos or repositories.
 - **Achievements**: Articles and posts about various technical topics, projects, and personal insights.
-- **Contact**: A form to get in touch with me for potential opportunities or inquiries.
+- **Contact**: A form to get in touch with me for potential opportunities or inquiries
 
 ## Technologies Used
 - **Frontend**:
