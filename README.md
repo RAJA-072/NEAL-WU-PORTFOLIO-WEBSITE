@@ -14,7 +14,7 @@ Welcome to the repository for my portfolio website, now live at [https://nealwup
 7. [Contact](#contact)
 
 ## Introduction
-This website serves as a comprehensive portfolio showcasing my skills, projects, and professional experiences. It is designed to provide potential employers and collaborators with a clear and detailed understanding of my technical capabilities and past work
+This website serves as a comprehensive portfolio showcasing my skills, projects, and professional experiences. It is designed to provide potential employers and collaborators with a clear and detailed understanding of my technical capabilities and past work.
 
 ## Features
 - **Home Page**: An overview of who I am and what I do.
